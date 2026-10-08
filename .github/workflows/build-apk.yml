@@ -22,11 +22,12 @@ jobs:
           unzip -q source.zip -d src
           cp patches/app-build.gradle.kts src/VideoShrink/app/build.gradle.kts
           cp patches/MediaStoreMuxerFactory.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/MediaStoreMuxerFactory.kt
+          cp patches/BatchCompressor.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/BatchCompressor.kt
 
       - name: Upload source snapshot
         uses: actions/upload-artifact@v4
         with:
-          name: VideoShrink-v0.2-source-snapshot
+          name: VideoShrink-v0.2.2-source-snapshot
           path: src/VideoShrink
           if-no-files-found: error
 
@@ -61,6 +62,6 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: VideoShrink-v0.2-debug-apk
+          name: VideoShrink-v0.2.2-debug-apk
           path: src/VideoShrink/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
