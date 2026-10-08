@@ -24,6 +24,7 @@ jobs:
           cp patches/app-build.gradle.kts src/VideoShrink/app/build.gradle.kts
           cp patches/MediaStoreMuxerFactory.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/MediaStoreMuxerFactory.kt
           cp patches/BatchCompressor.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/BatchCompressor.kt
+          cp patches/CompressionService.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/CompressionService.kt
           cp patches/MainActivity.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/MainActivity.kt
           cp patches/VideoAdapter.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/VideoAdapter.kt
           cp patches/VideoItem.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/VideoItem.kt
