@@ -1,4 +1,4 @@
-name: Build YingYa v0.7 Packages
+name: Build YingYa v0.8 Packages
 
 on:
   workflow_dispatch:
@@ -40,10 +40,18 @@ jobs:
           cp fixes-v0.7.0/SettingsActivity.kt src/YingYa/app/src/main/java/com/example/videoshrink/SettingsActivity.kt
           cp fixes-v0.7.0/build.gradle.kts src/YingYa/app/build.gradle.kts
 
+      - name: Apply verified v0.8 overlay
+        shell: bash
+        run: |
+          cat overlay-v0.8.0.part00.b64 overlay-v0.8.0.part01.b64 overlay-v0.8.0.part02.b64 > overlay-v0.8.0.b64
+          base64 -d overlay-v0.8.0.b64 > overlay-v0.8.0.tar.gz
+          echo "16aec77ca2daa0f9a0b837ef0cb03e9ec1c7ec7f820ed706799950384baea3ba  overlay-v0.8.0.tar.gz" | sha256sum -c -
+          tar -xzf overlay-v0.8.0.tar.gz -C src/YingYa
+
       - name: Upload source snapshot
         uses: actions/upload-artifact@v4
         with:
-          name: YingYa-v0.7.0-source-snapshot
+          name: YingYa-v0.8.0-source-snapshot
           path: src/YingYa
           if-no-files-found: error
 
@@ -75,23 +83,19 @@ jobs:
         working-directory: src/YingYa
         run: gradle :app:assembleDebug :app:assembleRelease :app:bundleRelease --stacktrace
 
-      - name: Upload debug APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: YingYa-v0.7.0-debug-apk
-          path: src/YingYa/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
+      - name: Stage build outputs
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp src/YingYa/app/build/outputs/apk/debug/app-debug.apk dist/YingYa-v0.8.0-debug.apk
+          cp src/YingYa/app/build/outputs/apk/release/app-release-unsigned.apk dist/YingYa-v0.8.0-release-unsigned.apk
+          cp src/YingYa/app/build/outputs/bundle/release/app-release.aab dist/YingYa-v0.8.0-release-unsigned.aab
+          cp "$ANDROID_HOME/build-tools/36.0.0/lib/apksigner.jar" dist/apksigner.jar
+          sha256sum dist/* > dist/SHA256SUMS.txt
 
-      - name: Upload unsigned release APK
+      - name: Upload build outputs
         uses: actions/upload-artifact@v4
         with:
-          name: YingYa-v0.7.0-unsigned-release-apk
-          path: src/YingYa/app/build/outputs/apk/release/app-release-unsigned.apk
-          if-no-files-found: error
-
-      - name: Upload unsigned release AAB
-        uses: actions/upload-artifact@v4
-        with:
-          name: YingYa-v0.7.0-unsigned-release-aab
-          path: src/YingYa/app/build/outputs/bundle/release/app-release.aab
+          name: YingYa-v0.8.0-build-outputs
+          path: dist
           if-no-files-found: error
