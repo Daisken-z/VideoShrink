@@ -51,9 +51,13 @@ jobs:
       - name: Apply verified v1.0.0-rc1 overlay
         shell: bash
         run: |
+          cat overlay-v1.0.0-rc1.part00-01.b64 overlay-v1.0.0-rc1.part02-03.b64 overlay-v1.0.0-rc1.part04-05.b64 overlay-v1.0.0-rc1.part06-07.b64 overlay-v1.0.0-rc1.part08-09.b64 overlay-v1.0.0-rc1.part10.b64 > overlay-v1.0.0-rc1.b64
           base64 -d overlay-v1.0.0-rc1.b64 > overlay-v1.0.0-rc1.tar.gz
           echo "967549b8e1c13528f5f58c71697cc95feaac22b0a33fd051d57f6a0009ac0515  overlay-v1.0.0-rc1.tar.gz" | sha256sum -c -
           tar -xzf overlay-v1.0.0-rc1.tar.gz -C src/YingYa
+          base64 -d fixes-v1.0.0-rc1/CompressionService.b64 > fixes-v1.0.0-rc1/CompressionService.tar.gz
+          echo "10e214055ba485b8669f24fedd29f5c770d51656202f7ddee2d19f3fb1c58489  fixes-v1.0.0-rc1/CompressionService.tar.gz" | sha256sum -c -
+          tar -xzf fixes-v1.0.0-rc1/CompressionService.tar.gz -C src/YingYa
 
       - name: Upload source snapshot
         uses: actions/upload-artifact@v4
