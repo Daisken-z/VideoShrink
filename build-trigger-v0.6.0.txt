@@ -1,0 +1,1 @@
+Build YingYa v0.6.0 production candidate
