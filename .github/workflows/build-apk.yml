@@ -26,6 +26,8 @@ jobs:
           cp patches/BatchCompressor.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/BatchCompressor.kt
           cp patches/MainActivity.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/MainActivity.kt
           cp patches/VideoAdapter.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/VideoAdapter.kt
+          cp patches/VideoItem.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/VideoItem.kt
+          cp patches/JobStore.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/JobStore.kt
           cp patches/activity_main.xml src/VideoShrink/app/src/main/res/layout/activity_main.xml
           cp patches/item_video.xml src/VideoShrink/app/src/main/res/layout/item_video.xml
           cp patches/sheet_settings.xml src/VideoShrink/app/src/main/res/layout/sheet_settings.xml
