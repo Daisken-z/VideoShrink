@@ -69,7 +69,7 @@ class BatchCompressor(
 
     private fun moveToNext() {
         val list = items ?: return finishAll()
-        val next = list.indexOfFirst { it.status == VideoStatus.READY }
+        val next = list.indexOfFirst { it.selected && it.status == VideoStatus.READY }
         if (next < 0 || cancelled) {
             finishAll()
             return
