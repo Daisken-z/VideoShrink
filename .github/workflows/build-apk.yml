@@ -23,6 +23,13 @@ jobs:
           cp patches/app-build.gradle.kts src/VideoShrink/app/build.gradle.kts
           cp patches/MediaStoreMuxerFactory.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/MediaStoreMuxerFactory.kt
 
+      - name: Upload source snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: VideoShrink-v0.2-source-snapshot
+          path: src/VideoShrink
+          if-no-files-found: error
+
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
