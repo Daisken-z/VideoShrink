@@ -21,6 +21,7 @@ jobs:
           echo "d306e0e9c7e26fc80b97100e4600e1d934b9e15e190b28545713364191413bc7  source-v0.5.0.zip" | sha256sum -c -
           mkdir -p src/VideoShrink
           unzip -q source-v0.5.0.zip -d src/VideoShrink
+          cp fixes-v0.5.0/MediaDeletion.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/MediaDeletion.kt
 
       - name: Upload source snapshot
         uses: actions/upload-artifact@v4
