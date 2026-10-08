@@ -12,35 +12,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Reconstruct source archive
+      - name: Reconstruct v0.5 source
         shell: bash
         run: |
-          cat source.part*.b64 > source.zip.b64
-          base64 -d source.zip.b64 > source.zip
-          echo "79ca5fcc901eb7e4308fefa926c1229d6819be128f2567a40c8b494b3f269092  source.zip" | sha256sum -c -
-          mkdir -p src
-          unzip -q source.zip -d src
-          mkdir -p src/VideoShrink/app/src/main/res/values-night
-          cp patches/app-build.gradle.kts src/VideoShrink/app/build.gradle.kts
-          cp patches/MediaStoreMuxerFactory.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/MediaStoreMuxerFactory.kt
-          cp patches/BatchCompressor.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/BatchCompressor.kt
-          cp patches/CompressionService.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/CompressionService.kt
-          cp patches/MainActivity.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/MainActivity.kt
-          cp patches/VideoAdapter.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/VideoAdapter.kt
-          cp patches/VideoItem.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/VideoItem.kt
-          cp patches/JobStore.kt src/VideoShrink/app/src/main/java/com/example/videoshrink/JobStore.kt
-          cp patches/activity_main.xml src/VideoShrink/app/src/main/res/layout/activity_main.xml
-          cp patches/item_video.xml src/VideoShrink/app/src/main/res/layout/item_video.xml
-          cp patches/sheet_settings.xml src/VideoShrink/app/src/main/res/layout/sheet_settings.xml
-          cp patches/colors.xml src/VideoShrink/app/src/main/res/values/colors.xml
-          cp patches/themes.xml src/VideoShrink/app/src/main/res/values/themes.xml
-          cp patches/colors-night.xml src/VideoShrink/app/src/main/res/values-night/colors.xml
-          cp patches/themes-night.xml src/VideoShrink/app/src/main/res/values-night/themes.xml
+          cat source-v0.5.0.part*.b64 > source-v0.5.0.b64
+          base64 -d source-v0.5.0.b64 > source-v0.5.0.zip
+          echo "d306e0e9c7e26fc80b97100e4600e1d934b9e15e190b28545713364191413bc7  source-v0.5.0.zip" | sha256sum -c -
+          mkdir -p src/VideoShrink
+          unzip -q source-v0.5.0.zip -d src/VideoShrink
 
       - name: Upload source snapshot
         uses: actions/upload-artifact@v4
         with:
-          name: VideoShrink-v0.4.0-source-snapshot
+          name: VideoShrink-v0.5.0-source-snapshot
           path: src/VideoShrink
           if-no-files-found: error
 
@@ -75,6 +59,6 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: VideoShrink-v0.4.0-debug-apk
+          name: VideoShrink-v0.5.0-debug-apk
           path: src/VideoShrink/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
