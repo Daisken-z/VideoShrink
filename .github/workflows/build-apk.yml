@@ -15,9 +15,8 @@ jobs:
       - name: Reconstruct v0.5 source
         shell: bash
         run: |
-          wc -c source-v0.5.0.part*.b64
-          sha256sum source-v0.5.0.part*.b64
-          cat source-v0.5.0.part*.b64 > source-v0.5.0.b64
+          sha256sum source-v0.5.0.part00.b64 source-v0.5.0.part01.b64 source-v0.5.0.part02.b64 source-v0.5.0.part03a.b64 source-v0.5.0.part03b.b64 source-v0.5.0.part03c.b64 source-v0.5.0.part03d.b64
+          cat source-v0.5.0.part00.b64 source-v0.5.0.part01.b64 source-v0.5.0.part02.b64 source-v0.5.0.part03a.b64 source-v0.5.0.part03b.b64 source-v0.5.0.part03c.b64 source-v0.5.0.part03d.b64 > source-v0.5.0.b64
           base64 -d source-v0.5.0.b64 > source-v0.5.0.zip
           echo "d306e0e9c7e26fc80b97100e4600e1d934b9e15e190b28545713364191413bc7  source-v0.5.0.zip" | sha256sum -c -
           mkdir -p src/VideoShrink
