@@ -89,7 +89,8 @@ jobs:
         run: |
           base64 -d processed-overlay-v1.0.0-rc3.part0a.b64 > processed-p0a.bin
           echo "ef05abda089163d87b1c79ff4177e1c7cf2240e670b151a2f8d6bf1c7781ca4d  processed-p0a.bin" | sha256sum -c -
-          base64 -d processed-overlay-v1.0.0-rc3.part0b.b64 > processed-p0b.bin
+          cat processed-safe-p0b-0.b64 processed-safe-p0b-1.b64 processed-safe-p0b-2a.b64 processed-safe-p0b-2b.b64 > processed-p0b.b64
+          base64 -d processed-p0b.b64 > processed-p0b.bin
           echo "2b37fb2abfe872b9faf3ab9dbf3f076ca0aa10e3d9e8fcae1a770bd80893d3be  processed-p0b.bin" | sha256sum -c -
           base64 -d processed-overlay-v1.0.0-rc3.part1.b64 > processed-p1.bin
           echo "9b38fec01c7a89cea55ec9d563c139d631420a3e0685e4bcffd43f277220c88e  processed-p1.bin" | sha256sum -c -
