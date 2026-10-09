@@ -1,0 +1,9 @@
+<resources>
+    <string name="smart_processed_count">圧縮済みの記録</string>
+    <string name="smart_video_status_filter">動画の状態</string>
+    <string name="smart_filter_unprocessed">未圧縮</string>
+    <string name="smart_filter_processed">圧縮済み</string>
+    <string name="smart_filter_all_status">すべての状態</string>
+    <string name="smart_processed_badge">圧縮済み</string>
+    <string name="smart_full_device_no_unprocessed">追加できる未圧縮の動画はありません</string>
+</resources>
