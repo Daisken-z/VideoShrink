@@ -87,14 +87,17 @@ jobs:
       - name: Apply verified processed-video awareness
         shell: bash
         run: |
-          cat \
-            processed-overlay-v1.0.0-rc3.part0a.b64 \
-            processed-overlay-v1.0.0-rc3.part0b.b64 \
-            processed-overlay-v1.0.0-rc3.part1.b64 \
-            processed-overlay-v1.0.0-rc3.part2a.b64 \
-            processed-overlay-v1.0.0-rc3.part2b.b64 \
-            > processed-overlay-v1.0.0-rc3.b64
-          base64 -d processed-overlay-v1.0.0-rc3.b64 > processed-overlay-v1.0.0-rc3.tar.gz
+          base64 -d processed-overlay-v1.0.0-rc3.part0a.b64 > processed-p0a.bin
+          echo "ef05abda089163d87b1c79ff4177e1c7cf2240e670b151a2f8d6bf1c7781ca4d  processed-p0a.bin" | sha256sum -c -
+          base64 -d processed-overlay-v1.0.0-rc3.part0b.b64 > processed-p0b.bin
+          echo "2b37fb2abfe872b9faf3ab9dbf3f076ca0aa10e3d9e8fcae1a770bd80893d3be  processed-p0b.bin" | sha256sum -c -
+          base64 -d processed-overlay-v1.0.0-rc3.part1.b64 > processed-p1.bin
+          echo "9b38fec01c7a89cea55ec9d563c139d631420a3e0685e4bcffd43f277220c88e  processed-p1.bin" | sha256sum -c -
+          base64 -d processed-overlay-v1.0.0-rc3.part2a.b64 > processed-p2a.bin
+          echo "2489293f31010d229280c238706be5cf8482d4489ae4f934b189d34f50529e87  processed-p2a.bin" | sha256sum -c -
+          base64 -d processed-overlay-v1.0.0-rc3.part2b.b64 > processed-p2b.bin
+          echo "e37a83275c9e50ee2d92c59bc64e89c00fd54675bcd7e576f0e778147d48ee2d  processed-p2b.bin" | sha256sum -c -
+          cat processed-p0a.bin processed-p0b.bin processed-p1.bin processed-p2a.bin processed-p2b.bin > processed-overlay-v1.0.0-rc3.tar.gz
           echo "837af8e838f43a3f2fdf34cd4c4aa63562369d212c69186514f9855dc74b7d29  processed-overlay-v1.0.0-rc3.tar.gz" | sha256sum -c -
           tar -xzf processed-overlay-v1.0.0-rc3.tar.gz -C src/YingYa
 
