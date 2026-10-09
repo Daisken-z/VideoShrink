@@ -15,14 +15,19 @@ jobs:
       - name: Checkout build inputs
         uses: actions/checkout@v4
 
-      - name: Download verified RC4 source snapshot
+      - name: Download verified latest RC4 source snapshot
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p src/YingYa
-          gh run download 37889545256 --repo "$GITHUB_REPOSITORY" --name YingYa-v1.0.0-rc4-source-snapshot --dir src/YingYa
+          gh run download 37890225665 --repo "$GITHUB_REPOSITORY" --name YingYa-v1.0.0-rc4-source-snapshot --dir src/YingYa
           test -f src/YingYa/app/build.gradle.kts
+
+      - name: Apply SmartMediaScanner compile fix
+        shell: bash
+        run: |
+          cp fixes-v1.0.0-rc4/SmartMediaScanner.kt src/YingYa/app/src/main/java/com/example/videoshrink/SmartMediaScanner.kt
 
       - name: Apply notification permission lint fix
         shell: bash
