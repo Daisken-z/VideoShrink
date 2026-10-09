@@ -1,0 +1,9 @@
+<resources>
+    <string name="smart_processed_count">已压缩记录</string>
+    <string name="smart_video_status_filter">视频状态</string>
+    <string name="smart_filter_unprocessed">未压缩</string>
+    <string name="smart_filter_processed">已压缩</string>
+    <string name="smart_filter_all_status">全部状态</string>
+    <string name="smart_processed_badge">已压缩</string>
+    <string name="smart_full_device_no_unprocessed">没有可加入的未压缩视频</string>
+</resources>
