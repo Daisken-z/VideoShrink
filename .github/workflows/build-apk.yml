@@ -113,9 +113,11 @@ jobs:
       - name: Restore processed-video localized strings
         shell: bash
         run: |
-          base64 -d fixes-v1.0.0-rc4/processed-strings.b64 > processed-strings.tar.gz
-          echo "388b663a89817dd3e2041bebea635a9a0b4d5695239eeaa8a882b9e1c5136244  processed-strings.tar.gz" | sha256sum -c -
-          tar -xzf processed-strings.tar.gz -C src/YingYa
+          cp fixes-v1.0.0-rc4/values/strings_processed.xml src/YingYa/app/src/main/res/values/strings_processed.xml
+          cp fixes-v1.0.0-rc4/values-en/strings_processed.xml src/YingYa/app/src/main/res/values-en/strings_processed.xml
+          cp fixes-v1.0.0-rc4/values-ja/strings_processed.xml src/YingYa/app/src/main/res/values-ja/strings_processed.xml
+          cp fixes-v1.0.0-rc4/values-ko/strings_processed.xml src/YingYa/app/src/main/res/values-ko/strings_processed.xml
+          cp fixes-v1.0.0-rc4/values-es/strings_processed.xml src/YingYa/app/src/main/res/values-es/strings_processed.xml
 
       - name: Upload source snapshot
         uses: actions/upload-artifact@v4
