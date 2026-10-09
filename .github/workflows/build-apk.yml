@@ -110,6 +110,13 @@ jobs:
           echo "03476eae48a9ba59b0f884a84318fd506b860924268e6a7a94b66a608bc6638a  overlay-v1.0.0-rc4.tar.gz" | sha256sum -c -
           tar -xzf overlay-v1.0.0-rc4.tar.gz -C src/YingYa
 
+      - name: Restore processed-video localized strings
+        shell: bash
+        run: |
+          base64 -d fixes-v1.0.0-rc4/processed-strings.b64 > processed-strings.tar.gz
+          echo "388b663a89817dd3e2041bebea635a9a0b4d5695239eeaa8a882b9e1c5136244  processed-strings.tar.gz" | sha256sum -c -
+          tar -xzf processed-strings.tar.gz -C src/YingYa
+
       - name: Upload source snapshot
         uses: actions/upload-artifact@v4
         with:
