@@ -1,0 +1,9 @@
+<resources>
+    <string name="smart_processed_count">압축 완료 기록</string>
+    <string name="smart_video_status_filter">동영상 상태</string>
+    <string name="smart_filter_unprocessed">미압축</string>
+    <string name="smart_filter_processed">압축됨</string>
+    <string name="smart_filter_all_status">전체 상태</string>
+    <string name="smart_processed_badge">압축됨</string>
+    <string name="smart_full_device_no_unprocessed">추가할 수 있는 미압축 동영상이 없습니다</string>
+</resources>
