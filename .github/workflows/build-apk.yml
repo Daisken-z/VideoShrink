@@ -69,8 +69,17 @@ jobs:
       - name: Apply verified v1.0.0-rc3 overlay
         shell: bash
         run: |
-          cat overlay-v1.0.0-rc3.group00.b64 overlay-v1.0.0-rc3.tail.b64 > overlay-v1.0.0-rc3.b64
-          base64 -d overlay-v1.0.0-rc3.b64 > overlay-v1.0.0-rc3.tar.gz
+          base64 -d overlay-v1.0.0-rc3.group00.b64 > overlay-v1.0.0-rc3.part00.bin
+          cat \
+            overlay-v1.0.0-rc3.part00.bin \
+            overlay-v1.0.0-rc3.part01_02.bin \
+            overlay-v1.0.0-rc3.part03_04.bin \
+            overlay-v1.0.0-rc3.part05a.bin \
+            overlay-v1.0.0-rc3.part05b.bin \
+            overlay-v1.0.0-rc3.part06a.bin \
+            overlay-v1.0.0-rc3.part06b.bin \
+            overlay-v1.0.0-rc3.part07.bin \
+            > overlay-v1.0.0-rc3.tar.gz
           echo "dc93840e1a429dc1b863c64aeace00b192a6212656a121a9e5ebcb44f3c5ed08  overlay-v1.0.0-rc3.tar.gz" | sha256sum -c -
           tar -xzf overlay-v1.0.0-rc3.tar.gz -C src/YingYa
 
