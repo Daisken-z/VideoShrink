@@ -1,4 +1,4 @@
-name: Build YingYa v1.0.0-rc2 Packages
+name: Build YingYa v1.0.0-rc3 Packages
 
 on:
   workflow_dispatch:
@@ -66,10 +66,18 @@ jobs:
           echo "7f41a488df9c0f36ae19ca607c999457b6dd3856e79b4c2e56f9721eee6f0e9d  overlay-v1.0.0-rc2.tar.gz" | sha256sum -c -
           tar -xzf overlay-v1.0.0-rc2.tar.gz -C src/YingYa
 
+      - name: Apply verified v1.0.0-rc3 overlay
+        shell: bash
+        run: |
+          cat overlay-v1.0.0-rc3.group00.b64 overlay-v1.0.0-rc3.tail.b64 > overlay-v1.0.0-rc3.b64
+          base64 -d overlay-v1.0.0-rc3.b64 > overlay-v1.0.0-rc3.tar.gz
+          echo "dc93840e1a429dc1b863c64aeace00b192a6212656a121a9e5ebcb44f3c5ed08  overlay-v1.0.0-rc3.tar.gz" | sha256sum -c -
+          tar -xzf overlay-v1.0.0-rc3.tar.gz -C src/YingYa
+
       - name: Upload source snapshot
         uses: actions/upload-artifact@v4
         with:
-          name: YingYa-v1.0.0-rc2-source-snapshot
+          name: YingYa-v1.0.0-rc3-source-snapshot
           path: src/YingYa
           if-no-files-found: error
 
@@ -105,15 +113,15 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist
-          cp src/YingYa/app/build/outputs/apk/debug/app-debug.apk dist/YingYa-v1.0.0-rc2-debug.apk
-          cp src/YingYa/app/build/outputs/apk/release/app-release-unsigned.apk dist/YingYa-v1.0.0-rc2-release-unsigned.apk
-          cp src/YingYa/app/build/outputs/bundle/release/app-release.aab dist/YingYa-v1.0.0-rc2-release-unsigned.aab
+          cp src/YingYa/app/build/outputs/apk/debug/app-debug.apk dist/YingYa-v1.0.0-rc3-debug.apk
+          cp src/YingYa/app/build/outputs/apk/release/app-release-unsigned.apk dist/YingYa-v1.0.0-rc3-release-unsigned.apk
+          cp src/YingYa/app/build/outputs/bundle/release/app-release.aab dist/YingYa-v1.0.0-rc3-release-unsigned.aab
           cp "$ANDROID_HOME/build-tools/36.0.0/lib/apksigner.jar" dist/apksigner.jar
           sha256sum dist/* > dist/SHA256SUMS.txt
 
       - name: Upload build outputs
         uses: actions/upload-artifact@v4
         with:
-          name: YingYa-v1.0.0-rc2-build-outputs
+          name: YingYa-v1.0.0-rc3-build-outputs
           path: dist
           if-no-files-found: error
