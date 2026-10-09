@@ -1,0 +1,85 @@
+name: Build YingYa v1.0.0-rc4 Final Packages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Checkout build inputs
+        uses: actions/checkout@v4
+
+      - name: Download verified RC4 source snapshot
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p src/YingYa
+          gh run download 37889545256 --repo "$GITHUB_REPOSITORY" --name YingYa-v1.0.0-rc4-source-snapshot --dir src/YingYa
+          test -f src/YingYa/app/build.gradle.kts
+
+      - name: Apply notification permission lint fix
+        shell: bash
+        run: |
+          base64 -d fixes-v1.0.0-rc4-notifications.b64 > rc4-notification-fix.tar.gz
+          echo "9e76a8e227b45731e3912fc0c4108621d67c3e00a4c8ea73e117546c01a32a70  rc4-notification-fix.tar.gz" | sha256sum -c -
+          tar -xzf rc4-notification-fix.tar.gz -C src/YingYa
+
+      - name: Upload final source snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: YingYa-v1.0.0-rc4-final-source-snapshot
+          path: src/YingYa
+          if-no-files-found: error
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configure Android SDK
+        shell: bash
+        run: |
+          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
+          echo "/usr/local/lib/android/sdk/platform-tools" >> "$GITHUB_PATH"
+          echo "/usr/local/lib/android/sdk/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+          yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses >/dev/null || true
+          /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-36" \
+            "build-tools;36.0.0" \
+            "platform-tools"
+
+      - name: Set up Gradle 8.13
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+
+      - name: Test, lint and build release candidates
+        working-directory: src/YingYa
+        run: gradle :app:testDebugUnitTest :app:lintRelease :app:assembleDebug :app:assembleRelease :app:bundleRelease --stacktrace
+
+      - name: Stage build outputs
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp src/YingYa/app/build/outputs/apk/debug/app-debug.apk dist/YingYa-v1.0.0-rc4-debug.apk
+          cp src/YingYa/app/build/outputs/apk/release/app-release-unsigned.apk dist/YingYa-v1.0.0-rc4-release-unsigned.apk
+          cp src/YingYa/app/build/outputs/bundle/release/app-release.aab dist/YingYa-v1.0.0-rc4-release-unsigned.aab
+          cp src/YingYa/app/build/reports/lint-results-release.html dist/lint-results-release.html
+          cp "$ANDROID_HOME/build-tools/36.0.0/lib/apksigner.jar" dist/apksigner.jar
+          sha256sum dist/* > dist/SHA256SUMS.txt
+
+      - name: Upload final build outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: YingYa-v1.0.0-rc4-final-build-outputs
+          path: dist
+          if-no-files-found: error
