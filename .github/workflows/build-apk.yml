@@ -72,7 +72,8 @@ jobs:
           base64 -d overlay-v1.0.0-rc3.group00.b64 > overlay-v1.0.0-rc3.part00.bin
           cat \
             overlay-v1.0.0-rc3.part00.bin \
-            overlay-v1.0.0-rc3.part01_02.bin \
+            overlay-v1.0.0-rc3.part01.bin \
+            overlay-v1.0.0-rc3.part02.bin \
             overlay-v1.0.0-rc3.part03_04.bin \
             overlay-v1.0.0-rc3.part05a.bin \
             overlay-v1.0.0-rc3.part05b.bin \
