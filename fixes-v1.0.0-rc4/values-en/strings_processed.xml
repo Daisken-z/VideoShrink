@@ -1,0 +1,9 @@
+<resources>
+    <string name="smart_processed_count">Previously compressed</string>
+    <string name="smart_video_status_filter">Video status</string>
+    <string name="smart_filter_unprocessed">Not compressed</string>
+    <string name="smart_filter_processed">Compressed</string>
+    <string name="smart_filter_all_status">All statuses</string>
+    <string name="smart_processed_badge">Compressed</string>
+    <string name="smart_full_device_no_unprocessed">No uncompressed videos are available to add</string>
+</resources>
