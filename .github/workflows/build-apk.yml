@@ -1,9 +1,9 @@
-name: Build YingYa v1.0.0-rc2 Packages
+name: Build YingYa v1.0.0-rc3 Packages
 
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ main, rc3-build ]
 
 jobs:
   build:
@@ -66,10 +66,17 @@ jobs:
           echo "7f41a488df9c0f36ae19ca607c999457b6dd3856e79b4c2e56f9721eee6f0e9d  overlay-v1.0.0-rc2.tar.gz" | sha256sum -c -
           tar -xzf overlay-v1.0.0-rc2.tar.gz -C src/YingYa
 
+      - name: Apply verified v1.0.0-rc3 overlay
+        shell: bash
+        run: |
+          cat overlay-v1.0.0-rc3.bin00 overlay-v1.0.0-rc3.bin01 overlay-v1.0.0-rc3.bin06 overlay-v1.0.0-rc3.bin07 overlay-v1.0.0-rc3.bin08 overlay-v1.0.0-rc3.bin09 overlay-v1.0.0-rc3.bin10 overlay-v1.0.0-rc3.bin11 overlay-v1.0.0-rc3.bin12 overlay-v1.0.0-rc3.bin13 overlay-v1.0.0-rc3.bin14 overlay-v1.0.0-rc3.bin15 overlay-v1.0.0-rc3.bin16 overlay-v1.0.0-rc3.bin17 > overlay-v1.0.0-rc3.tar.gz
+          echo "6ba869d50575f81352ae298d842000ffb52a48ab2f8905e75e199cd397934ba3  overlay-v1.0.0-rc3.tar.gz" | sha256sum -c -
+          tar -xzf overlay-v1.0.0-rc3.tar.gz -C src/YingYa
+
       - name: Upload source snapshot
         uses: actions/upload-artifact@v4
         with:
-          name: YingYa-v1.0.0-rc2-source-snapshot
+          name: YingYa-v1.0.0-rc3-source-snapshot
           path: src/YingYa
           if-no-files-found: error
 
@@ -87,10 +94,7 @@ jobs:
           echo "/usr/local/lib/android/sdk/platform-tools" >> "$GITHUB_PATH"
           echo "/usr/local/lib/android/sdk/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
           yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses >/dev/null || true
-          /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager \
-            "platforms;android-36" \
-            "build-tools;36.0.0" \
-            "platform-tools"
+          /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
 
       - name: Set up Gradle 8.13
         uses: gradle/actions/setup-gradle@v4
@@ -105,15 +109,15 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist
-          cp src/YingYa/app/build/outputs/apk/debug/app-debug.apk dist/YingYa-v1.0.0-rc2-debug.apk
-          cp src/YingYa/app/build/outputs/apk/release/app-release-unsigned.apk dist/YingYa-v1.0.0-rc2-release-unsigned.apk
-          cp src/YingYa/app/build/outputs/bundle/release/app-release.aab dist/YingYa-v1.0.0-rc2-release-unsigned.aab
+          cp src/YingYa/app/build/outputs/apk/debug/app-debug.apk dist/YingYa-v1.0.0-rc3-debug.apk
+          cp src/YingYa/app/build/outputs/apk/release/app-release-unsigned.apk dist/YingYa-v1.0.0-rc3-release-unsigned.apk
+          cp src/YingYa/app/build/outputs/bundle/release/app-release.aab dist/YingYa-v1.0.0-rc3-release-unsigned.aab
           cp "$ANDROID_HOME/build-tools/36.0.0/lib/apksigner.jar" dist/apksigner.jar
           sha256sum dist/* > dist/SHA256SUMS.txt
 
       - name: Upload build outputs
         uses: actions/upload-artifact@v4
         with:
-          name: YingYa-v1.0.0-rc2-build-outputs
+          name: YingYa-v1.0.0-rc3-build-outputs
           path: dist
           if-no-files-found: error
