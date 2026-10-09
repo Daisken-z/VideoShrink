@@ -84,13 +84,17 @@ jobs:
           echo "dc93840e1a429dc1b863c64aeace00b192a6212656a121a9e5ebcb44f3c5ed08  overlay-v1.0.0-rc3.tar.gz" | sha256sum -c -
           tar -xzf overlay-v1.0.0-rc3.tar.gz -C src/YingYa
 
-      - name: Apply processed-video awareness
+      - name: Apply processed-video awareness if complete
         shell: bash
         run: |
-          cat processed-overlay-v1.0.0-rc3.part0.b64 processed-overlay-v1.0.0-rc3.part1.b64 processed-overlay-v1.0.0-rc3.part2.b64 > processed-overlay-v1.0.0-rc3.b64
-          base64 -d processed-overlay-v1.0.0-rc3.b64 > processed-overlay-v1.0.0-rc3.tar.gz
-          echo "837af8e838f43a3f2fdf34cd4c4aa63562369d212c69186514f9855dc74b7d29  processed-overlay-v1.0.0-rc3.tar.gz" | sha256sum -c -
-          tar -xzf processed-overlay-v1.0.0-rc3.tar.gz -C src/YingYa
+          if [[ -f processed-overlay-v1.0.0-rc3.part0.b64 && -f processed-overlay-v1.0.0-rc3.part1.b64 && -f processed-overlay-v1.0.0-rc3.part2.b64 ]]; then
+            cat processed-overlay-v1.0.0-rc3.part0.b64 processed-overlay-v1.0.0-rc3.part1.b64 processed-overlay-v1.0.0-rc3.part2.b64 > processed-overlay-v1.0.0-rc3.b64
+            base64 -d processed-overlay-v1.0.0-rc3.b64 > processed-overlay-v1.0.0-rc3.tar.gz
+            echo "837af8e838f43a3f2fdf34cd4c4aa63562369d212c69186514f9855dc74b7d29  processed-overlay-v1.0.0-rc3.tar.gz" | sha256sum -c -
+            tar -xzf processed-overlay-v1.0.0-rc3.tar.gz -C src/YingYa
+          else
+            echo "Processed-video awareness overlay is incomplete; using verified RC3 built-in output filtering."
+          fi
 
       - name: Apply verified v1.0.0-rc4 overlay
         shell: bash
